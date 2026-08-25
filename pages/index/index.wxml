@@ -1,0 +1,14 @@
+<navigation-bar title="我的第一个小程序" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<image class="bg-image" src="../../img/bg.jpg" mode="aspectFill"></image>
+
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="content-wrapper">
+    <view class="title">hello {{wording}}!</view>
+    <input class="name-input" bindinput="onInput" placeholder="在此输入你的名字..." />
+
+    <image wx:if="{{showImg}}" class="lab-image" mode="widthFix" src="../../img/lab1.png"></image>
+    
+    <button class="custom-btn" hover-class="btn-hover" bindtap="onClick">点击切换</button>
+    <button class="custom-btn toggle-btn" hover-class="btn-hover" bindtap="toggleImg">显示/隐藏图片</button>
+  </view>
+</scroll-view>

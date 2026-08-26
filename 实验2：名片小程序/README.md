@@ -212,11 +212,6 @@ onTouchEnd(e) {
 5. 在满足网络和域名配置条件时，下载并打开 PDF 简历。
 
 <p align="center">
-  <img src="https://cdn.jsdelivr.net/gh/Olivia-183/photos@main/exp2/image005.jpg" alt="名片小程序最终运行界面" width="320">
-</p>
-<p align="center"><strong>课上完成：名片小程序demo运行界面</strong></p>
-
-<p align="center">
   <img src="https://cdn.jsdelivr.net/gh/Olivia-183/photos@main/exp2/3%E6%96%B9%E9%9D%A2%E4%BB%8B%E7%BB%8D.jpg" alt="三个学习方向介绍" width="720">
 </p>
 <p align="center"><strong>三个学习方向介绍</strong></p>

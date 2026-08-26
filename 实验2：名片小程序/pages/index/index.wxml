@@ -1,0 +1,83 @@
+<view class="page-wrapper" data-theme="{{theme}}">
+  <view class="custom-nav {{isScrolled ? 'nav-glass' : ''}}" style="height: {{navHeight}}px; padding-top: {{navTop}}px;">
+    <view class="nav-title" style="line-height: {{navHeight - navTop}}px;">个人名片 · 周唯</view>
+  </view>
+
+  <view class="container">
+    <view class="header-banner">
+      <image class="banner-img" src="../../img/bg.jpg" mode="aspectFill"></image>
+      <view class="banner-overlay"></view>
+    </view>
+
+    <view class="card-wrapper anim-fade-in">
+      <view class="profile-card">
+        
+        <view class="card-header">
+          <view class="name-row">
+            <text class="name">{{profile.name}}</text>
+            <text class="tag">{{profile.enrollmentYear}}</text>
+          </view>
+          <view class="title">{{profile.title}}</view>
+          <view class="school">{{profile.school}}</view>
+        </view>
+
+        <view class="intro-box">
+          <text class="intro-text">{{profile.intro}}</text>
+        </view>
+
+        <view class="card-inner-image">
+          <image class="inner-img" src="../../img/self-intro.jpg" mode="aspectFill"></image>
+        </view>
+
+        <view class="expand-action hover-press" bindtap="toggleExpand">
+          <text class="expand-text">{{isExpanded ? '收起' : '展开'}}</text>
+          <view class="expand-icon {{isExpanded ? 'rotate' : ''}}"></view>
+        </view>
+
+        <block wx:if="{{isExpanded}}">
+          <view class="expanded-content anim-fade-in">
+            
+            <view class="tab-nav">
+              <block wx:for="{{profile.tabs}}" wx:key="id">
+                <view class="tab-item {{currentTab === index ? 'active' : ''}}" data-index="{{index}}" bindtap="switchTab">
+                  {{item.title}}
+                </view>
+              </block>
+            </view>
+            
+            <view class="tab-panel" bindtouchstart="onTouchStart" bindtouchend="onTouchEnd">
+              <text class="panel-text {{slideDirection}}">{{profile.tabs[currentTab].content}}</text>
+            </view>
+
+            <view class="social-links">
+              <view class="link-item hover-press" data-text="{{profile.github}}" bindtap="copyText">
+                <text class="link-label">GitHub</text>
+                <text class="link-value">{{profile.github}}</text>
+                <text class="copy-hint">复制链接</text>
+              </view>
+              <view class="link-item hover-press" data-text="{{profile.email}}" bindtap="copyText">
+                <text class="link-label">Email</text>
+                <text class="link-value">{{profile.email}}</text>
+                <text class="copy-hint">复制邮箱</text>
+              </view>
+            </view>
+
+            <view class="action-bar">
+              <view class="action-btn primary hover-press" bindtap="saveContact">保存通讯录</view>
+              <view class="action-btn secondary hover-press" bindtap="previewResume">PDF简历</view>
+              <view class="action-btn secondary hover-press" bindtap="copyIntro">复制简历</view>
+            </view>
+            
+          </view>
+        </block>
+
+      </view>
+    </view>
+
+  </view>
+
+  <view class="theme-toggle-btn hover-press" bindtap="toggleTheme">
+    <text class="theme-icon">{{theme === 'dark' ? '🌙' : (theme === 'light' ? '☀️' : '⚙️')}}</text>
+  </view>
+
+</view>

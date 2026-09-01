@@ -1,0 +1,34 @@
+<view class="my-page {{theme === 'dark' ? 'theme-dark' : ''}}"><view class="my-login">
+  <block wx:if="{{isLogin}}">
+    <image class="avatar" src="{{avatarUrl}}" mode="aspectFill"></image>
+    <text class="nickname">{{nickName}}</text>
+    <view class="account-actions">
+      <button class="account-button logout-button" bindtap="logout">退出登录</button>
+    </view>
+  </block>
+  <view wx:else class="login-panel">
+    <button class="avatar-button" open-type="chooseAvatar" bind:chooseavatar="chooseAvatar">
+      <image wx:if="{{pendingAvatarUrl}}" src="{{pendingAvatarUrl}}" mode="aspectFill"></image>
+      <text wx:else>选择微信头像</text>
+    </button>
+    <input class="nickname-input" type="nickname" placeholder="填写微信昵称" bindinput="inputNickname" />
+    <button class="login-button" bindtap="login">登录</button>
+  </view>
+</view>
+<view wx:if="{{isLogin}}" class="stats-card"><view><text>{{stats.favorites}}</text><text>收藏</text></view><view><text>{{stats.likes}}</text><text>点赞</text></view><view><text>{{stats.comments}}</text><text>评论</text></view><view><text>{{stats.reads}}</text><text>阅读</text></view></view>
+<view class="toolbar"><text>夜间模式</text><switch checked="{{theme === 'dark'}}" color="#328eeb" bindchange="toggleTheme" /></view>
+<view wx:if="{{isLogin}}" class="section-tabs"><view class="{{activeSection === 'favorites' ? 'active' : ''}}" data-section="favorites" bindtap="chooseSection">收藏</view><view class="{{activeSection === 'history' ? 'active' : ''}}" data-section="history" bindtap="chooseSection">历史</view><view class="{{activeSection === 'likes' ? 'active' : ''}}" data-section="likes" bindtap="chooseSection">点赞</view></view>
+<view wx:if="{{activeSection === 'favorites' && isLogin}}" class="sort-row" bindtap="toggleSort">排序：{{sortDirection === 'latest' ? '最新收藏' : '最早收藏'}} ↕</view>
+  <view wx:if="{{isLogin && displayList.length}}" class="news-list">
+    <view class="news-item" wx:for="{{displayList}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
+      <image src="{{item.poster}}" mode="aspectFill"></image>
+      <view class="news-info">
+        <text class="news-title">{{item.title}}</text>
+        <text class="news-date">{{item.add_date}}</text>
+      </view>
+      <text wx:if="{{activeSection === 'favorites'}}" class="remove-button" catchtap="removeFavorite" data-id="{{item.id}}">删除</text>
+    </view>
+  </view>
+
+  <view wx:elif="{{isLogin}}" class="empty-tip">这里还没有内容</view>
+</view>

@@ -1,0 +1,23 @@
+<view class="page {{theme === 'dark' ? 'theme-dark' : ''}}">
+  <swiper class="news-swiper" indicator-dots="true" autoplay="true" circular="true" interval="5000" duration="500">
+    <swiper-item wx:for="{{swiperImg}}" wx:key="src"><image src="{{item.src}}" mode="aspectFill"></image></swiper-item>
+  </swiper>
+  <view class="search-box"><text class="search-icon">⌕</text><input value="{{keyword}}" placeholder="搜索新闻关键词" confirm-type="search" bindinput="onSearchInput" /></view>
+  <scroll-view class="category-scroll" scroll-x="true" show-scrollbar="false"><view class="category-list">
+    <view wx:for="{{categories}}" wx:key="*this" class="category {{activeCategory === item ? 'category-active' : ''}}" data-category="{{item}}" bindtap="chooseCategory">{{item}}</view>
+  </view></scroll-view>
+  <view class="quick-actions">
+    <view class="quick-action" data-section="favorites" bindtap="openMySection"><text class="quick-icon">☆</text><text>收藏</text></view>
+    <view class="quick-action" data-section="history" bindtap="openMySection"><text class="quick-icon">◷</text><text>历史</text></view>
+    <view class="quick-action" data-section="likes" bindtap="openMySection"><text class="quick-icon">♥</text><text>点赞</text></view>
+  </view>
+  <view class="section-title">校园新闻</view>
+  <view wx:if="{{isLoading}}" class="state-message">正在加载新闻…</view>
+  <view wx:elif="{{!filteredNews.length}}" class="state-message empty-state">没有找到相关新闻</view>
+  <view wx:else class="news-list">
+    <view class="news-item" wx:for="{{filteredNews}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
+      <image src="{{item.poster}}" mode="aspectFill"></image>
+      <view class="news-info"><text class="news-title">{{item.title}}</text><text class="news-summary" wx:if="{{item.summary}}">{{item.summary}}</text><view class="news-meta"><text>{{item.category}}</text><text>{{item.add_date}}</text></view></view>
+    </view>
+  </view>
+</view>

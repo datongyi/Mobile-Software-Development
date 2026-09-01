@@ -1,0 +1,23 @@
+<view class="share-page" wx:if="{{article.id}}">
+  <view class="share-heading">
+    <view class="moments-icon">朋</view>
+    <view>
+      <view class="heading-title">分享到朋友圈</view>
+      <view class="heading-tip">确认下面要分享的新闻内容</view>
+    </view>
+  </view>
+
+  <view class="share-preview">
+    <image class="poster" src="{{article.poster}}" mode="aspectFill"></image>
+    <view class="preview-content">
+      <view class="news-title">{{article.title}}</view>
+      <view class="news-summary">{{article.summary}}</view>
+      <view class="news-date">高校新闻网 · {{article.add_date}}</view>
+    </view>
+  </view>
+
+  <view class="share-actions">
+    <button class="cancel-button" bindtap="cancelShare">取消</button>
+    <button class="confirm-button" bindtap="confirmShare">确认分享</button>
+  </view>
+</view>

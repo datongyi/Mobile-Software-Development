@@ -1,0 +1,41 @@
+<view class="page {{theme === 'dark' ? 'theme-dark' : ''}}" wx:if="{{article.id}}">
+  <view class="container">
+    <view class="article-category" wx:if="{{article.category}}">{{article.category}}</view>
+    <view class="title">{{article.title}}</view>
+    <view class="add-date">{{article.add_date}} · 阅读 {{viewCount}}</view>
+    <view class="poster"><image src="{{article.poster}}" mode="widthFix"></image></view>
+    <view class="content"><text>{{article.content}}</text></view>
+
+    <view class="action-row">
+      <button wx:if="{{isFavorite}}" class="action-button favorite-button active" bindtap="cancelFavorite">❤ 已收藏</button>
+      <button wx:else class="action-button favorite-button" bindtap="addFavorite">♡ 收藏</button>
+      <button class="action-button like-button {{isLiked ? 'active' : ''}}" bindtap="toggleLike">{{isLiked ? '♥ 已点赞' : '♡ 点赞'}}</button>
+      <button class="action-button share-button" bindtap="simulateShare">分享</button>
+    </view>
+
+    <view class="comments-section">
+      <view class="section-title">评论（{{comments.length}}）</view>
+      <view wx:if="{{isLogin}}" class="comment-form">
+        <textarea value="{{commentContent}}" maxlength="300" placeholder="说说你的看法" placeholder-class="comment-placeholder" auto-height bindinput="inputComment"></textarea>
+        <button class="submit-button" bindtap="submitComment">发表评论</button>
+      </view>
+      <view wx:else class="login-comment-tip">
+        <text>登录后才能发表评论</text>
+        <button class="login-button" bindtap="goToLogin">去登录</button>
+      </view>
+      <view wx:if="{{comments.length}}" class="comment-list">
+        <view wx:for="{{comments}}" wx:key="id" class="comment-item">
+          <image wx:if="{{item.avatarUrl}}" class="avatar" src="{{item.avatarUrl}}" mode="aspectFill"></image>
+          <view wx:else class="avatar avatar-fallback">游</view>
+          <view class="comment-main">
+            <view class="comment-meta"><text class="comment-name">{{item.nickname}}</text><text class="comment-time">{{item.createdText}}</text></view>
+            <view class="comment-text">{{item.content}}</view>
+          </view>
+          <text class="delete-comment" data-id="{{item.id}}" bindtap="deleteComment">删除</text>
+        </view>
+      </view>
+      <view wx:else class="empty-comments">还没有评论，来抢沙发吧。</view>
+    </view>
+  </view>
+  <button class="back-top" bindtap="backToTop">↑ 顶部</button>
+</view>

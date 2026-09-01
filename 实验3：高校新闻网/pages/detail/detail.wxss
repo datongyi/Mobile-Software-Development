@@ -1,0 +1,69 @@
+.page { min-height: 100vh; background: #f5f7fa; }
+.container { box-sizing: border-box; min-height: 100vh; padding: 30rpx 25rpx 130rpx; background-color: #ffffff; }
+.article-category { display: inline-block; margin-bottom: 14rpx; padding: 4rpx 16rpx; border-radius: 20rpx; background: #eaf4ff; color: #328eeb; font-size: 22rpx; }
+
+.title {
+  color: #222222;
+  font-size: 40rpx;
+  font-weight: 600;
+  line-height: 58rpx;
+  text-align: center;
+}
+
+.add-date {
+  margin: 18rpx 0 28rpx;
+  color: #999999;
+  font-size: 26rpx;
+  text-align: center;
+}
+
+.poster { text-align: center; }
+
+.poster image {
+  width: 700rpx;
+  max-width: 100%;
+  border-radius: 8rpx;
+}
+
+.content {
+  margin-top: 30rpx;
+  color: #333333;
+  font-size: 30rpx;
+  line-height: 52rpx;
+  text-align: justify;
+}
+
+.action-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 16rpx; margin-top: 45rpx; }
+.action-button { width: 31%; min-width: 180rpx; margin: 0; padding: 0 12rpx; border: 1rpx solid #328eeb; border-radius: 38rpx; background-color: #ffffff; color: #328eeb; font-size: 25rpx; line-height: 66rpx; }
+.favorite-button.active, .like-button.active { border-color: #ef5350; color: #ef5350; }
+.comments-section { margin-top: 58rpx; padding-top: 30rpx; border-top: 1rpx solid #eeeeee; }
+.section-title { color: #222222; font-size: 34rpx; font-weight: 600; }
+.comment-form { margin-top: 24rpx; padding: 20rpx; border-radius: 14rpx; background: #f5f7fa; }
+.comment-form textarea { width: 100%; min-height: 96rpx; color: #333333; font-size: 28rpx; line-height: 42rpx; }
+.comment-placeholder { color: #a8afb9; }
+.submit-button { width: 220rpx; margin: 18rpx 0 0 auto; border-radius: 34rpx; background: #328eeb; color: #ffffff; font-size: 26rpx; line-height: 64rpx; }
+.login-comment-tip { display: flex; align-items: center; justify-content: space-between; gap: 20rpx; margin-top: 24rpx; padding: 20rpx 24rpx; border-radius: 14rpx; background: #f5f7fa; color: #6f7782; font-size: 27rpx; }
+.login-button { flex: 0 0 auto; width: 150rpx; margin: 0; border-radius: 32rpx; background: #328eeb; color: #ffffff; font-size: 25rpx; line-height: 60rpx; }
+.comment-list { margin-top: 18rpx; }
+.comment-item { display: flex; align-items: flex-start; padding: 25rpx 0; border-bottom: 1rpx solid #eeeeee; }
+.avatar { flex: 0 0 auto; width: 64rpx; height: 64rpx; margin-right: 18rpx; border-radius: 50%; }
+.avatar-fallback { background: #dcecff; color: #328eeb; font-size: 26rpx; line-height: 64rpx; text-align: center; }
+.comment-main { flex: 1; min-width: 0; }
+.comment-meta { display: flex; align-items: center; justify-content: space-between; gap: 14rpx; }
+.comment-name { color: #328eeb; font-size: 27rpx; }
+.comment-time { color: #999999; font-size: 22rpx; }
+.comment-text { margin-top: 10rpx; color: #333333; font-size: 28rpx; line-height: 42rpx; word-break: break-all; }
+.delete-comment { flex: 0 0 auto; margin-left: 16rpx; color: #9ba3af; font-size: 23rpx; }
+.empty-comments { padding: 55rpx 0; color: #999999; font-size: 27rpx; text-align: center; }
+.back-top { position: fixed; right: 28rpx; bottom: 44rpx; width: 112rpx; height: 72rpx; padding: 0; border-radius: 36rpx; background: rgba(50, 142, 235, 0.92); color: #ffffff; font-size: 22rpx; line-height: 72rpx; }
+.theme-dark, .theme-dark .container { background: #171b22; }
+.theme-dark .title, .theme-dark .section-title, .theme-dark .content, .theme-dark .comment-text { color: #edf1f6; }
+.theme-dark .add-date, .theme-dark .comment-time, .theme-dark .empty-comments { color: #9aa5b4; }
+.theme-dark .article-category { background: #203a55; color: #91c9ff; }
+.theme-dark .action-button { border-color: #5ca9f5; background: #202832; color: #91c9ff; }
+.theme-dark .favorite-button.active, .theme-dark .like-button.active { border-color: #ff8c8c; color: #ff9e9e; }
+.theme-dark .comments-section, .theme-dark .comment-item { border-color: #303947; }
+.theme-dark .comment-form { background: #202832; }
+.theme-dark .login-comment-tip { background: #202832; color: #bac5d2; }
+.theme-dark .comment-form textarea { color: #edf1f6; }
+.theme-dark .avatar-fallback { background: #294563; color: #a6d4ff; }

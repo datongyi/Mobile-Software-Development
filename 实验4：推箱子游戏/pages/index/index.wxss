@@ -1,0 +1,126 @@
+page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollarea {
+  flex: 1;
+  min-height: 0;
+}
+
+.home {
+  width: 100%;
+  max-width: 750rpx;
+  margin: 0 auto;
+  padding: 42rpx 32rpx 64rpx;
+}
+
+.intro {
+  padding: 8rpx 4rpx 38rpx;
+}
+
+.eyebrow {
+  display: block;
+  color: #b5683d;
+  font-size: 24rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+}
+
+.headline {
+  display: block;
+  margin-top: 18rpx;
+  color: #3c3027;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 52rpx;
+  font-weight: 700;
+  line-height: 1.22;
+}
+
+.description {
+  display: block;
+  margin-top: 18rpx;
+  color: #76675a;
+  font-size: 27rpx;
+  line-height: 1.6;
+}
+
+.progress-line {
+  display: flex;
+  margin-top: 28rpx;
+  padding-top: 22rpx;
+  border-top: 1rpx solid #dfd3c1;
+  color: #9b8876;
+  font-size: 24rpx;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sound-setting {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.sound-setting switch {
+  transform: scale(0.78);
+  transform-origin: right center;
+}
+
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18rpx;
+}
+
+.level-button {
+  display: flex;
+  aspect-ratio: 1 / 1;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx solid #315f49;
+  border-radius: 8rpx;
+  background: #3f7458;
+  color: #fffaf1;
+  box-shadow: 0 6rpx 16rpx rgba(63, 116, 88, 0.16);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.level-button--pressed {
+  transform: scale(0.96);
+  box-shadow: 0 2rpx 8rpx rgba(63, 116, 88, 0.14);
+}
+
+.level-button--locked {
+  border-color: #b5afa7;
+  background: #cbc6bf;
+  color: #77716b;
+  box-shadow: none;
+}
+
+.level-number {
+  font-size: 38rpx;
+  font-weight: 700;
+}
+
+.lock-icon {
+  font-size: 38rpx;
+  line-height: 1;
+}
+
+@media (max-width: 360px) {
+  .home {
+    padding-right: 24rpx;
+    padding-left: 24rpx;
+  }
+
+  .headline {
+    font-size: 46rpx;
+  }
+
+  .level-grid {
+    gap: 14rpx;
+  }
+}

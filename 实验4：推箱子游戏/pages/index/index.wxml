@@ -1,0 +1,33 @@
+<navigation-bar title="推箱子游戏" back="{{false}}" color="#3c3027" background="#f7f1e5"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="home">
+    <view class="intro">
+      <text class="eyebrow">60 关推箱挑战</text>
+      <text class="headline">动脑推一推，<br />把箱子送到目标点</text>
+      <text class="description">选择一个关卡开始挑战，熟悉推箱子的基本规则。</text>
+      <view class="progress-line">
+        <text>已完成 {{completedCount}} / {{totalCount}} 关</text>
+        <view class="sound-setting">
+          <text>音效</text>
+          <switch checked="{{soundEnabled}}" bindchange="toggleSound" color="#3f7458" />
+        </view>
+      </view>
+    </view>
+
+    <view class="level-grid">
+      <view
+        class="level-button {{item.locked ? 'level-button--locked' : ''}}"
+        wx:for="{{levels}}"
+        wx:key="id"
+        data-level="{{item.id}}"
+        bindtap="chooseLevel"
+        hover-class="level-button--pressed"
+        aria-role="button"
+        aria-label="{{item.locked ? '第' + item.id + '关未解锁' : '第' + item.id + '关'}}"
+      >
+        <text wx:if="{{item.locked}}" class="lock-icon" aria-hidden="true">🔒</text>
+        <text wx:else class="level-number">{{item.id}}</text>
+      </view>
+    </view>
+  </view>
+</scroll-view>

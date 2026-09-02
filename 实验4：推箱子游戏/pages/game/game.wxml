@@ -1,0 +1,47 @@
+<navigation-bar title="{{levelName}}" back="{{true}}" color="#3c3027" background="#f7f1e5"></navigation-bar>
+<view class="game-page">
+  <view class="game-status">
+    <view>
+      <text class="status-label">当前关卡</text>
+      <text class="status-value">{{levelName}}</text>
+    </view>
+    <view class="status-center">
+      <text class="status-label">移动步数</text>
+      <text class="status-value">{{moves}}</text>
+    </view>
+    <view class="moves-panel">
+      <text class="status-label">挑战用时</text>
+      <text class="status-value">{{elapsedText}}</text>
+    </view>
+  </view>
+
+  <view
+    class="board-shell"
+    style="width: {{boardWidth}}px; height: {{boardHeight}}px;"
+    bindtouchstart="handleTouchStart"
+    bindtouchend="handleTouchEnd"
+  >
+    <canvas canvas-id="gameCanvas" class="game-canvas" style="width: {{boardWidth}}px; height: {{boardHeight}}px;"></canvas>
+    <view wx:if="{{loading}}" class="canvas-message">正在准备棋盘...</view>
+    <view wx:if="{{paused}}" class="canvas-message pause-message">游戏已暂停</view>
+    <view wx:if="{{errorMessage}}" class="canvas-message canvas-error">{{errorMessage}}</view>
+  </view>
+
+  <view class="control-pad" aria-label="方向控制">
+    <view class="control-row control-row-top">
+      <view class="direction {{loading || won || paused ? 'direction-disabled' : ''}}" data-direction="up" bindtap="handleDirection" aria-role="button" aria-label="向上">↑</view>
+    </view>
+    <view class="control-row">
+      <view class="direction {{loading || won || paused ? 'direction-disabled' : ''}}" data-direction="left" bindtap="handleDirection" aria-role="button" aria-label="向左">←</view>
+      <view class="direction {{loading || won || paused ? 'direction-disabled' : ''}}" data-direction="down" bindtap="handleDirection" aria-role="button" aria-label="向下">↓</view>
+      <view class="direction {{loading || won || paused ? 'direction-disabled' : ''}}" data-direction="right" bindtap="handleDirection" aria-role="button" aria-label="向右">→</view>
+    </view>
+  </view>
+
+  <view class="tool-row">
+    <button class="tool-button" bindtap="undoMove" disabled="{{loading || !canUndo}}">撤销 {{undoCount}}/5</button>
+    <button class="tool-button pause-button" bindtap="togglePause" disabled="{{loading || won}}">{{paused ? '继续' : '暂停'}}</button>
+    <button class="tool-button restart-button" bindtap="restartGame" disabled="{{loading}}">重新开始</button>
+  </view>
+  <text class="game-tip">可点击方向键，也可在棋盘上滑动</text>
+</view>

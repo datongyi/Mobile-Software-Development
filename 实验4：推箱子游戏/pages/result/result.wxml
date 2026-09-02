@@ -1,0 +1,28 @@
+<navigation-bar title="挑战完成" back="{{false}}" color="#3c3027" background="#f7f1e5"></navigation-bar>
+<view class="result-page">
+  <view class="result-mark">✓</view>
+  <text class="result-eyebrow">关卡完成</text>
+  <text class="result-title">第 {{levelId}} 关挑战成功</text>
+  <view class="stars">{{starsText}}</view>
+  <view class="result-grid">
+    <view class="result-stat">
+      <text class="result-label">本次步数</text>
+      <text class="result-value">{{moves}}</text>
+    </view>
+    <view class="result-stat">
+      <text class="result-label">本次用时</text>
+      <text class="result-value result-time">{{elapsedText}}</text>
+    </view>
+    <view class="result-stat">
+      <text class="result-label">最佳步数</text>
+      <text class="result-value">{{bestMoves}}</text>
+    </view>
+    <view class="result-stat">
+      <text class="result-label">最佳用时</text>
+      <text class="result-value result-time">{{bestTimeText}}</text>
+    </view>
+  </view>
+  <button wx:if="{{hasNext}}" class="primary-action" bindtap="nextLevel">下一关</button>
+  <button class="secondary-action" bindtap="replay">再玩一次</button>
+  <button class="text-action" bindtap="backHome">返回选关</button>
+</view>

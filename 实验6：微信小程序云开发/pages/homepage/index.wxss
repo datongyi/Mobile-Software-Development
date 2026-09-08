@@ -1,0 +1,11 @@
+.profile-page { min-height: 100vh; padding: 28rpx 24rpx 80rpx; box-sizing: border-box; }
+.profile-header { display: flex; flex-direction: column; align-items: center; padding: 40rpx 0 34rpx; margin-bottom: 24rpx; background: #fff; border-radius: 16rpx; }
+.profile-avatar { width: 148rpx; height: 148rpx; border-radius: 50%; background: #edf1f5; }
+.profile-name { margin-top: 20rpx; color: #161616; font-size: 37rpx; font-weight: 600; }
+.profile-location { margin-top: 8rpx; color: #7a8491; font-size: 24rpx; }
+.profile-total { margin-top: 20rpx; color: #0f62fe; font-size: 24rpx; }
+.photo-feed { display: flex; flex-direction: column; gap: 24rpx; }
+.author-photo { display: flex; flex-direction: column; gap: 10rpx; }
+.delete-button { align-self: flex-end; margin: 0; color: #c9372c; background: #fff; border: 1rpx solid #f0b7b2; }
+.state-box { min-height: 240rpx; background: #fff; border-radius: 16rpx; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20rpx; color: #7a8491; font-size: 27rpx; }
+.error-state { color: #c9372c; }

@@ -1,0 +1,14 @@
+page { background: #fff; }
+.detail-page { min-height: 100vh; }
+.detail-image { display: block; width: 100%; min-height: 420rpx; background: #edf1f5; }
+.detail-author { display: flex; align-items: center; padding: 28rpx 30rpx 12rpx; }
+.detail-author image { width: 72rpx; height: 72rpx; margin-right: 18rpx; border-radius: 50%; background: #edf1f5; }
+.detail-author view { display: flex; flex-direction: column; gap: 8rpx; }
+.detail-author text:first-child { color: #161616; font-size: 29rpx; font-weight: 600; }
+.detail-author text:last-child, .detail-meta { color: #7a8491; font-size: 23rpx; }
+.detail-meta { padding: 12rpx 30rpx 24rpx; }
+.detail-actions { display: flex; flex-direction: column; padding: 0 30rpx; gap: 18rpx; }
+.detail-actions button { margin: 0; border: 1rpx solid #d8dee8; color: #0f62fe; background: #fff; }
+.state-box { min-height: 520rpx; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20rpx; color: #7a8491; font-size: 27rpx; }
+.error-state { color: #c9372c; }
+

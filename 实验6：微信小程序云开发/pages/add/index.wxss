@@ -1,0 +1,24 @@
+.add-page { min-height: 100vh; padding: 28rpx 24rpx 80rpx; box-sizing: border-box; }
+.profile-section, .upload-section, .history-section { padding: 28rpx; margin-bottom: 24rpx; background: #fff; border-radius: 16rpx; }
+.section-title { color: #161616; font-size: 31rpx; font-weight: 600; margin-bottom: 24rpx; }
+.profile-row { display: flex; align-items: center; flex-wrap: wrap; gap: 16rpx; }
+.profile-avatar { width: 96rpx; height: 96rpx; border-radius: 50%; background: #edf1f5; }
+.avatar-button { margin: 0; height: 56rpx; line-height: 56rpx; font-size: 24rpx; color: #0f62fe; background: #eef4ff; }
+.nickname-input { flex: 1; min-width: 240rpx; height: 62rpx; padding: 0 18rpx; border: 1rpx solid #d8dee8; border-radius: 10rpx; box-sizing: border-box; font-size: 27rpx; }
+.region-picker { display: flex; align-items: center; justify-content: space-between; margin-top: 22rpx; padding-top: 22rpx; border-top: 1rpx solid #edf0f4; color: #6f7782; font-size: 25rpx; }
+.region-picker text:nth-child(2) { flex: 1; margin-left: 20rpx; color: #161616; }
+.region-picker text:last-child { color: #0f62fe; font-size: 36rpx; }
+.choose-button { height: 300rpx; border: 2rpx dashed #b6c2d1; background: #f8fafc; color: #0f62fe; display: flex; align-items: center; justify-content: center; }
+.selected-preview { position: relative; height: 360rpx; overflow: hidden; border-radius: 12rpx; background: #edf1f5; }
+.selected-preview image { width: 100%; height: 100%; }
+.replace { position: absolute; right: 18rpx; bottom: 18rpx; padding: 12rpx 18rpx; color: #fff; background: rgba(0,0,0,.6); border-radius: 8rpx; font-size: 24rpx; }
+.upload-button { margin-top: 24rpx; background: #0f62fe; }
+.error-text { display: block; margin-top: 18rpx; color: #c9372c; font-size: 24rpx; }
+.history-title { display: flex; align-items: center; justify-content: space-between; }
+.history-actions { display: flex; align-items: center; gap: 20rpx; }
+.home-link { color: #0f62fe; font-size: 25rpx; font-weight: 400; }
+.history-count { color: #8a949f; font-size: 23rpx; font-weight: 400; }
+.empty-history { padding: 70rpx 0; text-align: center; color: #8a949f; font-size: 25rpx; }
+.history-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8rpx; }
+.history-item { height: 210rpx; overflow: hidden; background: #edf1f5; }
+.history-item image { width: 100%; height: 100%; }

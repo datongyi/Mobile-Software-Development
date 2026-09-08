@@ -1,0 +1,30 @@
+<view class="add-page">
+  <view class="profile-section">
+    <view class="section-title">上传者资料</view>
+    <view class="profile-row">
+      <image class="profile-avatar" src="{{avatarUrl || '/images/icons/about.png'}}" mode="aspectFill"></image>
+      <button class="avatar-button" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">更换头像</button>
+      <input class="nickname-input" type="nickname" value="{{nickName}}" bindinput="onNicknameInput" placeholder="填写昵称" maxlength="20" />
+    </view>
+    <picker mode="region" value="{{region}}" bindchange="onRegionChange">
+      <view class="region-picker">所在地区 <text>{{region[0] || '请选择'}} {{region[1]}} {{region[2]}}</text><text>›</text></view>
+    </picker>
+  </view>
+
+  <view class="upload-section">
+    <view class="section-title">选择图片</view>
+    <view wx:if="{{selectedImage}}" class="selected-preview"><image src="{{selectedImage}}" mode="aspectFill"></image><view class="replace" bindtap="chooseImage">重新选择</view></view>
+    <button wx:else class="choose-button" bindtap="chooseImage">从相册或相机选择</button>
+    <button class="upload-button" type="primary" loading="{{uploading}}" disabled="{{uploading}}" bindtap="upload">{{uploading ? '上传中...' : '上传到云端'}}</button>
+    <text wx:if="{{error}}" class="error-text">{{error}}</text>
+  </view>
+
+  <view class="history-section">
+    <view class="section-title history-title"><text>我的上传记录</text><view class="history-actions"><text class="history-count">{{historyPhotos.length}} 张</text><text class="home-link" bindtap="openMine">我的主页 ›</text></view></view>
+    <view wx:if="{{loading}}" class="empty-history">加载中...</view>
+    <view wx:elif="{{historyPhotos.length === 0}}" class="empty-history">还没有上传记录</view>
+    <view wx:else class="history-grid">
+      <view wx:for="{{historyPhotos}}" wx:key="_id" class="history-item" data-id="{{item._id}}" bindtap="openDetail"><image src="{{item.photoUrl}}" mode="aspectFill"></image></view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,5 @@
+<view class="profile-page">
+  <view wx:if="{{loading}}" class="state-box">加载中...</view>
+  <view wx:elif="{{error}}" class="state-box error-state"><text>{{error}}</text><button size="mini" bindtap="retry">重新加载</button></view>
+  <view wx:else><view class="profile-header"><image class="profile-avatar" src="{{profile.avatarUrl || '/images/icons/about.png'}}" mode="aspectFill"></image><text class="profile-name">{{profile.nickName || '匿名用户'}}</text><text class="profile-location">{{profile.province || '未知地区'}} {{profile.city}}</text><text class="profile-total">{{photos.length}} 张作品</text></view><view wx:if="{{photos.length === 0}}" class="state-box">该用户还没有公开作品</view><view wx:else class="photo-feed"><view wx:for="{{photos}}" wx:key="_id" class="author-photo"><photo-card photo="{{item}}" bind:detail="onPhotoDetail" bind:author="onPhotoAuthor" /><button wx:if="{{isOwner}}" class="delete-button" size="mini" data-item="{{item}}" bindtap="removePhoto">删除这张图片</button></view></view></view>
+</view>

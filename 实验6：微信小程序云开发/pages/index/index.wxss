@@ -1,0 +1,18 @@
+.home-page { min-height: 100vh; padding: 32rpx 24rpx 140rpx; box-sizing: border-box; }
+.home-header { display: flex; flex-direction: column; align-items: stretch; margin-bottom: 28rpx; }
+.home-header > view:first-child { min-width: 0; }
+.page-title { display: block; white-space: nowrap; font-size: 40rpx; }
+.header-actions { display: flex; justify-content: flex-end; gap: 12rpx; align-items: center; margin-top: 20rpx; }
+.header-mine { flex-shrink: 0; width: 128rpx; margin: 0; padding: 0; height: 64rpx; line-height: 64rpx; color: #0f62fe; background: #eef4ff; font-size: 22rpx; }
+.page-subtitle { display: block; margin-top: 8rpx; color: #6f7782; font-size: 24rpx; }
+.header-upload { flex-shrink: 0; width: 168rpx; margin: 0; padding: 0; height: 64rpx; line-height: 64rpx; color: #fff; background: #0f62fe; font-size: 24rpx; }
+.photo-feed { display: flex; flex-direction: column; gap: 24rpx; }
+.state-box { min-height: 360rpx; background: #fff; border-radius: 16rpx; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20rpx; color: #7a8491; font-size: 27rpx; }
+.state-box button { margin-top: 8rpx; }
+.empty-title { color: #161616; font-size: 34rpx; font-weight: 600; }
+.error-state { color: #c9372c; }
+.feed-state { padding: 22rpx; text-align: center; color: #8a949f; font-size: 24rpx; }
+.feed-error { display: flex; align-items: center; justify-content: center; gap: 18rpx; color: #c9372c; font-size: 24rpx; }
+.feed-error button { margin: 0; }
+.floating-upload { position: fixed; right: 32rpx; bottom: 44rpx; z-index: 10; width: 100rpx; height: 100rpx; border-radius: 50%; background: #0f62fe; box-shadow: 0 12rpx 30rpx rgba(15, 98, 254, .3); display: flex; align-items: center; justify-content: center; }
+.floating-upload text { color: #fff; font-size: 58rpx; font-weight: 300; line-height: 1; }

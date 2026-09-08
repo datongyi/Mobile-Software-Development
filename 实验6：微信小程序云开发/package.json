@@ -1,0 +1,11 @@
+{
+  "name": "photo-sharing-community",
+  "version": "1.0.0",
+  "private": true,
+  "description": "微信云开发图片分享社区",
+  "scripts": {
+    "test": "node --test tests/photo-utils.test.cjs"
+  },
+  "author": "",
+  "license": ""
+}

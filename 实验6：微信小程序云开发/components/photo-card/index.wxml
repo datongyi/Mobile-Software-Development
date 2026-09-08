@@ -1,0 +1,14 @@
+<view class="photo-card">
+  <view class="photo-card-head" catchtap="tapAuthor">
+    <image class="avatar" src="{{photo.avatarUrl || '/images/icons/about.png'}}" mode="aspectFill"></image>
+    <view class="author-info">
+      <text class="nickname">{{photo.nickName || '匿名用户'}}</text>
+      <text class="location">{{photo.province || '未知地区'}}<text wx:if="{{photo.city}}"> · {{photo.city}}</text></text>
+    </view>
+  </view>
+  <view class="photo-card-body" catchtap="tapDetail">
+    <image class="photo" src="{{photo.photoUrl}}" mode="widthFix"></image>
+  </view>
+  <view class="photo-card-foot"><text>{{photo.displayDate || photo.addDate}}</text><text class="view-tip">查看详情 ›</text></view>
+</view>
+

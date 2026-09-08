@@ -1,0 +1,11 @@
+.photo-card { overflow: hidden; background: #fff; border-radius: 16rpx; box-shadow: 0 6rpx 24rpx rgba(22, 22, 22, .05); }
+.photo-card-head { display: flex; align-items: center; padding: 24rpx; }
+.avatar { flex: 0 0 auto; width: 72rpx; height: 72rpx; border-radius: 50%; background: #e8edf5; }
+.author-info { display: flex; flex-direction: column; margin-left: 18rpx; }
+.nickname { color: #161616; font-size: 29rpx; font-weight: 600; }
+.location { margin-top: 8rpx; color: #7a8491; font-size: 22rpx; }
+.photo-card-body { width: 100%; background: #edf1f5; line-height: 0; }
+.photo { display: block; width: 100%; min-height: 260rpx; max-height: 760rpx; }
+.photo-card-foot { display: flex; justify-content: space-between; padding: 20rpx 24rpx 24rpx; color: #8a949f; font-size: 23rpx; }
+.view-tip { color: #0f62fe; }
+

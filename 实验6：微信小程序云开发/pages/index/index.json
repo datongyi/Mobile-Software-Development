@@ -1,0 +1,7 @@
+{
+  "usingComponents": { "photo-card": "../../components/photo-card/index" },
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 80,
+  "navigationBarTitleText": "图片分享"
+}
+

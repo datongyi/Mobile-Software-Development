@@ -1,0 +1,16 @@
+<view class="home-page">
+  <view class="home-header">
+    <view><text class="page-title">图片分享社区</text><text class="page-subtitle">记录此刻，分享灵感</text></view>
+    <view class="header-actions"><button class="header-mine" bindtap="goMine">我的主页</button><button class="header-upload" bindtap="goAdd">上传图片</button></view>
+  </view>
+  <view wx:if="{{loading && photos.length === 0}}" class="state-box"><text>正在加载图片...</text></view>
+  <view wx:elif="{{error && photos.length === 0}}" class="state-box error-state"><text>{{error}}</text><button size="mini" bindtap="retry">重新加载</button></view>
+  <view wx:elif="{{photos.length === 0}}" class="state-box"><text class="empty-title">还没有图片</text><text>上传第一张图片，开始分享吧</text><button size="mini" type="primary" bindtap="goAdd">去上传</button></view>
+  <view wx:else class="photo-feed">
+    <photo-card wx:for="{{photos}}" wx:key="_id" photo="{{item}}" bind:author="onPhotoAuthor" bind:detail="onPhotoDetail" />
+    <view wx:if="{{loadingMore}}" class="feed-state">加载更多...</view>
+    <view wx:elif="{{!hasMore}}" class="feed-state">已经到底了</view>
+    <view wx:if="{{error}}" class="feed-error"><text>{{error}}</text><button size="mini" bindtap="retry">重试</button></view>
+  </view>
+  <view class="floating-upload" bindtap="goAdd"><text>+</text></view>
+</view>

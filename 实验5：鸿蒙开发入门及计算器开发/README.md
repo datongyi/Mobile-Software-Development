@@ -293,45 +293,6 @@ entry/build/default/outputs/default/entry-default-unsigned.hap
 
 <p align="right">(<a href="#readme-top">返回顶部</a>)</p>
 
-<a id="github-上传范围"></a>
-
-## GitHub 上传范围
-
-提交以下目录和根目录文件，即可构成可导入 DevEco Studio 的完整工程：
-
-- `AppScope/`
-- `entry/`（保留 `src/main/resources/` 中的应用资源，排除 `entry/build/`）
-- `hvigor/`
-- `.gitignore`
-- `README.md`
-- `build-profile.json5`
-- `code-linter.json5`
-- `hvigorfile.ts`
-- `oh-package.json5`
-- `oh-package-lock.json5`
-
-不要提交以下本机或可再生成内容：
-
-- `local.properties`：包含本机 SDK 路径；
-- `.idea/`、`.hvigor/`：IDE 和 Hvigor 缓存；
-- `oh_modules/`：OHPM 依赖缓存，可通过 `ohpm install` 恢复；
-- 任意 `build/` 目录：构建中间文件和 HAP 产物；
-- 调试截图、布局转储、内部任务卡和会话日志；
-- 仅用于参考的旧工程副本（例如 `Calculator/`）。
-
-项目根目录的 `.gitignore` 已包含上述忽略规则。首次上传前可在根目录执行：
-
-```bash
-git init
-git add .
-git status
-git commit -m "实验 5：个性化科学计算器"
-```
-
-不要将 `local.properties` 加入提交，也不要把未签名 HAP 当作源码文件上传。GitHub 仓库中保留源码和配置即可，其他开发者在本地同步依赖后可以重新构建。
-
-<p align="right">(<a href="#readme-top">返回顶部</a>)</p>
-
 <a id="问题与解决方法"></a>
 
 ## 问题与解决方法

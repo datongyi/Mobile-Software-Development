@@ -83,16 +83,16 @@
 | 图片上传 | 图片文件上传到云存储，元数据写入 `photos` 集合 |
 | 上传者资料 | 使用头像选择器、昵称输入框和地区选择器维护展示资料 |
 | OpenID 获取 | `getOpenid` 云函数返回当前微信用户 OpenID，并由应用缓存 |
-| 作者主页 | 点击图片作者查看该作者的资料和全部作品 |
+| 作者主页 | 点击图片作者查看资料，按页加载全部作品，支持下拉刷新 |
 | 我的主页 | 首页和上传页均提供入口，查看当前用户上传记录 |
-| 图片删除 | 个人主页确认后删除本人数据库记录及对应云存储文件 |
+| 图片删除 | 个人主页确认后删除本人记录和云文件；文件清理失败时提供重试 |
 | 图片详情 | 查看大图、作者资料、地区和上传日期 |
 | 全屏预览 | 调用 `wx.previewImage` 查看完整图片 |
 | 保存到相册 | 云文件先下载到临时路径，再调用 `wx.saveImageToPhotosAlbum` 保存 |
 | 微信分享 | 详情页通过 `open-type="share"` 分享图片详情路径 |
 | 云文件显示 | 将 `cloud://` 文件 ID 转换成临时 HTTPS 地址后绑定到 `<image>` |
 | 异常反馈 | 覆盖加载、空数据、云端失败、取消选择、重试和删除确认等状态 |
-| 失败清理 | 数据库写入失败时删除本次已上传的云文件，减少孤立文件 |
+| 失败清理 | 发布失败时清理本次图片及新头像，保留所选图片供重试 |
 
 > 当前版本聚焦云开发基础功能，未实现点赞、评论、搜索、关注、批量上传和内容审核等扩展功能。
 
@@ -105,9 +105,8 @@
 ```text
 实验6：微信小程序云开发/
 ├── cloudfunctions/
-│   └── getOpenid/
-│       ├── index.js              # 获取当前用户 OpenID
-│       └── package.json          # 云函数运行依赖
+│   ├── getOpenid/               # 获取当前用户 OpenID
+│   └── publishPhoto/             # 以可信 OpenID 写入图片元数据
 ├── common/
 │   └── updateManager.js          # 小程序版本更新处理
 ├── components/
@@ -152,6 +151,7 @@
 | `components/photo-card/` | 复用图片卡片展示和作者/详情点击事件 |
 | `services/photos/index.js` | 封装查询、上传、临时链接解析、写入和删除 |
 | `cloudfunctions/getOpenid/` | 通过 `cloud.getWXContext()` 返回 OpenID |
+| `cloudfunctions/publishPhoto/` | 使用调用者 OpenID 写入图片记录 |
 | `utils/photo.js` | 处理日期格式、文件扩展名、云路径和记录格式化 |
 | `config/index.js` | 设置云环境及是否启用照片 Mock/本地兜底 |
 | `tests/` | 使用 Node.js 内置测试运行器验证纯函数 |
@@ -179,7 +179,7 @@ wx.cloud.callFunction({ name: 'getOpenid' })
 
 ### 图片上传与元数据写入
 
-上传流程由 `services/photos/index.js` 统一处理：先生成带 OpenID 和时间戳的云存储路径，上传图片文件，再向 `photos` 集合写入图片地址、作者资料和创建时间。数据库写入失败时会尝试删除刚上传的文件。
+上传流程由 `services/photos/index.js` 统一处理：先生成带 OpenID 和时间戳的云存储路径，上传图片文件，再调用 `publishPhoto` 云函数向 `photos` 集合写入图片地址、作者资料和创建时间。数据库写入失败时会尝试删除刚上传的文件。
 
 ```javascript
 const cloudPath = buildCloudPath({
@@ -195,7 +195,7 @@ const record = await addPhoto({
 })
 ```
 
-云数据库记录不手动写入 `_openid`，由云开发依据当前登录上下文自动生成，避免客户端伪造用户身份或导致写入失败。
+`publishPhoto` 从云函数调用上下文读取 OpenID 并写入 `_openid`，避免客户端伪造用户身份，也避免客户端数据库权限导致文件已上传但元数据未写入。
 
 ### 图片查询与分页
 
@@ -334,13 +334,16 @@ photos
 
 ### 3. 部署云函数
 
-将 `cloudfunctions/getOpenid/` 部署到云环境，函数名称必须为：
+将 `cloudfunctions/getOpenid/` 和 `cloudfunctions/publishPhoto/` 分别部署到云环境，函数名称必须为：
 
 ```text
 getOpenid
+publishPhoto
 ```
 
-在微信开发者工具中右键该目录，选择“创建并部署：云端安装依赖”。云函数通过 `wx-server-sdk` 的 `cloud.getWXContext().OPENID` 获取当前用户 OpenID。
+部署时必须包含 `wx-server-sdk` 及其传递依赖，仅上传 `index.js` 和 `package.json` 不足以运行函数。本项目的 `publishPhoto` 使用锁文件固定依赖，可先在本地执行 `npm ci --omit=dev --ignore-scripts`，再将完整函数目录（包含 `node_modules`）部署到云环境。不要只根据云函数状态为 Active 判断依赖完整，必须实际调用验证。
+
+云函数通过 `cloud.getWXContext().OPENID` 获取可信身份；`publishPhoto` 写入 `_openid` 和服务端创建时间。若出现 `Cannot find module 'wx-server-sdk'`，重新部署完整依赖，客户端编译不能修复云端缺失模块。
 
 ### 4. 编译和上传体验版
 
@@ -362,7 +365,9 @@ getOpenid
 
 图片上传和数据库写入是两个独立步骤。如果数据库写入失败，云存储可能已经产生文件，但首页查询不到对应记录。常见原因是客户端手动写入 `_openid`、集合权限不允许写入，或小程序连接了错误的云环境。
 
-项目将 `_openid` 交给云数据库自动生成，固定客户端云环境，并在写入失败时清理本次文件。排查时应同时检查 `photos` 集合和云存储目录，而不是只看其中一处。
+项目通过 `publishPhoto` 云函数写入可信 `_openid`，固定客户端云环境，并在明确发布失败时清理本次文件。排查时应同时检查 `photos` 集合和云存储目录。旧的孤立文件不会自动生成公开记录，以免错误归属作者或意外公开图片。
+
+列表查询先在数据库按 `createdAt` 倒序排列，再分页读取；每次客户端数据库请求最多取 20 条，超过 20 条的请求会分批完成。个人主页和上传记录提供继续加载，返回页面时重新读取列表。大数据量部署可按查询需要添加 `createdAt`、`_openid + createdAt` 索引。
 
 ### 问题 2：数据库中的 `cloud://` 地址绑定到图片后不显示
 

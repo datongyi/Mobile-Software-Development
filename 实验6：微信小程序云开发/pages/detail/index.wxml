@@ -1,2 +1,11 @@
-<view class="detail-page"><view wx:if="{{loading}}" class="state-box">加载中...</view><view wx:elif="{{error}}" class="state-box error-state"><text>{{error}}</text><button size="mini" bindtap="retry">重新加载</button></view><view wx:elif="{{photo}}" class="detail-content"><image class="detail-image" src="{{photo.photoUrl}}" mode="widthFix" bindtap="previewPhoto"></image><view class="detail-author"><image src="{{photo.avatarUrl || '/images/icons/about.png'}}" mode="aspectFill"></image><view><text>{{photo.nickName || '匿名用户'}}</text><text>{{photo.province || '未知地区'}} {{photo.city}}</text></view></view><view class="detail-meta">上传于 {{photo.displayDate || photo.addDate}}</view><view class="detail-actions"><button bindtap="downloadPhoto">保存到相册</button><button open-type="share">分享给好友</button><button bindtap="previewPhoto">全屏预览</button></view></view></view>
-
+<view class="detail-page">
+  <view wx:if="{{loading}}" class="state-box">加载中...</view>
+  <view wx:elif="{{error}}" class="state-box error-state"><text>{{error}}</text><button size="mini" bindtap="retry">重新加载</button></view>
+  <view wx:elif="{{photo}}" class="detail-content">
+    <image class="detail-image" src="{{photo.photoUrl}}" mode="widthFix" bindtap="previewPhoto" binderror="onImageError"></image>
+    <view wx:if="{{imageError}}" class="state-box error-state"><text>图片加载失败，请检查网络或重新加载</text><button size="mini" bindtap="retry">重新加载图片</button></view>
+    <view class="detail-author" bindtap="openAuthor"><image src="{{photo.avatarUrl || '/images/icons/about.png'}}" mode="aspectFill"></image><view><text>{{photo.nickName || '匿名用户'}}</text><text>{{photo.province || '未知地区'}} {{photo.city}}</text></view></view>
+    <view class="detail-meta">上传于 {{photo.displayDate || photo.addDate}}</view>
+    <view class="detail-actions"><button bindtap="downloadPhoto" loading="{{saving}}" disabled="{{saving}}">保存到相册</button><button open-type="share">分享给好友</button><button bindtap="previewPhoto">全屏预览</button></view>
+  </view>
+</view>

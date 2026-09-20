@@ -1,5 +1,13 @@
 <view class="profile-page">
-  <view wx:if="{{loading}}" class="state-box">加载中...</view>
-  <view wx:elif="{{error}}" class="state-box error-state"><text>{{error}}</text><button size="mini" bindtap="retry">重新加载</button></view>
-  <view wx:else><view class="profile-header"><image class="profile-avatar" src="{{profile.avatarUrl || '/images/icons/about.png'}}" mode="aspectFill"></image><text class="profile-name">{{profile.nickName || '匿名用户'}}</text><text class="profile-location">{{profile.province || '未知地区'}} {{profile.city}}</text><text class="profile-total">{{photos.length}} 张作品</text></view><view wx:if="{{photos.length === 0}}" class="state-box">该用户还没有公开作品</view><view wx:else class="photo-feed"><view wx:for="{{photos}}" wx:key="_id" class="author-photo"><photo-card photo="{{item}}" bind:detail="onPhotoDetail" bind:author="onPhotoAuthor" /><button wx:if="{{isOwner}}" class="delete-button" size="mini" data-item="{{item}}" bindtap="removePhoto">删除这张图片</button></view></view></view>
+  <view wx:if="{{loading && !photos.length}}" class="state-box">加载中...</view>
+  <view wx:elif="{{error && !photos.length}}" class="state-box error-state"><text>{{error}}</text><button size="mini" bindtap="retry">重新加载</button></view>
+  <view wx:else>
+    <view class="profile-header"><image class="profile-avatar" src="{{profile.avatarUrl || '/images/icons/about.png'}}" mode="aspectFill"></image><text class="profile-name">{{profile.nickName || '匿名用户'}}</text><text class="profile-location">{{profile.province || '未知地区'}} {{profile.city}}</text><text class="profile-total">{{total}} 张作品</text><button wx:if="{{isOwner}}" size="mini" bindtap="goAdd">上传图片</button></view>
+    <view wx:if="{{!photos.length}}" class="state-box">{{isOwner ? '你还没有公开作品，上传第一张图片吧' : '该用户还没有公开作品'}}</view>
+    <view wx:else class="photo-feed"><view wx:for="{{photos}}" wx:key="_id" class="author-photo"><photo-card photo="{{item}}" bind:detail="onPhotoDetail" bind:author="onPhotoAuthor" /><button wx:if="{{isOwner}}" class="delete-button" size="mini" disabled="{{!!deletingId}}" loading="{{deletingId === item._id}}" data-item="{{item}}" bindtap="removePhoto">删除这张图片</button></view></view>
+    <view wx:if="{{error}}" class="state-box error-state"><text>{{error}}</text><button size="mini" bindtap="retry">重新加载</button></view>
+    <view wx:if="{{hasMore}}" class="state-box"><button size="mini" bindtap="loadMore" loading="{{loadingMore}}" disabled="{{loadingMore}}">加载更多</button></view>
+    <view wx:elif="{{photos.length}}" class="state-box">已经到底了</view>
+  </view>
+  <view wx:if="{{pendingFiles.length}}" class="state-box error-state"><text>记录已删除，还有 {{pendingFiles.length}} 个云文件未清理</text><button size="mini" bindtap="retryCleanup">重试文件清理</button></view>
 </view>

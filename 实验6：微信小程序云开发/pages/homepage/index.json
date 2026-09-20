@@ -1,2 +1,1 @@
-{ "usingComponents": { "photo-card": "../../components/photo-card/index" }, "navigationBarTitleText": "个人主页" }
-
+{ "usingComponents": { "photo-card": "../../components/photo-card/index" }, "navigationBarTitleText": "个人主页", "enablePullDownRefresh": true, "onReachBottomDistance": 80 }

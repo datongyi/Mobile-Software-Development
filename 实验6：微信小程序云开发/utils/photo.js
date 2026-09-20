@@ -36,7 +36,7 @@ function formatPhotoRecord(data) {
   const profile = source.profile || {};
   const createdAt = source.createdAt || source.addDate || new Date();
   return {
-    photoUrl: source.photoUrl || '',
+    photoUrl: source.fileID || source.photoFileID || source.photoUrl || '',
     cloudPath: source.cloudPath || '',
     avatarUrl: source.avatarUrl || profile.avatarUrl || '',
     nickName: source.nickName || profile.nickName || '匿名用户',
@@ -50,10 +50,26 @@ function formatPhotoRecord(data) {
   };
 }
 
+function isLocalImage(value) {
+  return !!value && !/^cloud:\/\//.test(value)
+    && (!/^https?:\/\//i.test(value) || /^https?:\/\/(?:tmp|usr)\//i.test(value));
+}
+
+function errorMessage(error, fallback = '操作失败，请重试') {
+  const message = String(error && (error.message || error.errMsg) || '');
+  if (/Cannot find module.*wx-server-sdk/.test(message)) return '发布服务缺少依赖，请部署 publishPhoto 的完整依赖后重试';
+  if (/FUNCTION_NOT_FOUND|function.*not.*found|-501000/i.test(message)) return '云函数未部署，请检查 getOpenid 和 publishPhoto';
+  if (/permission|PERMISSION_DENIED|DATABASE_PERMISSION_DENIED/i.test(message)) return '云端权限不足，请检查数据库和存储权限';
+  if (/timeout|timed out/i.test(message)) return '请求超时，请刷新列表确认结果后重试';
+  if (/network|request:fail/i.test(message)) return '网络连接失败，请检查网络后重试';
+  return message || fallback;
+}
+
 module.exports = {
   formatDate,
   getFileExtension,
   buildCloudPath,
   formatPhotoRecord,
+  isLocalImage,
+  errorMessage,
 };
-

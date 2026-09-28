@@ -1,0 +1,72 @@
+<view class="page {{theme}}">
+  <text class="eyebrow">THE DAYS WE KEEP</text>
+  <view class="page-title">时光有声</view>
+  <view class="stat-line">
+    <view><text class="number">{{total}}</text><text class="muted">篇生活记录</text></view>
+    <view><text class="number">{{activeDays}}</text><text class="muted">个留下痕迹的日子</text></view>
+  </view>
+  <view class="calendar-head">
+    <button class="icon-button" data-step="-1" bindtap="month" aria-label="上个月"><image src="/assets/icons/chevron-left.png"/></button>
+    <text class="bold">{{monthLabel}}</text>
+    <button class="icon-button" data-step="1" bindtap="month" aria-label="下个月"><image src="/assets/icons/chevron-right.png"/></button>
+  </view>
+  <view class="calendar">
+    <text class="weekday" wx:for="{{['日','一','二','三','四','五','六']}}" wx:key="*this">{{item}}</text>
+    <view wx:for="{{days}}" wx:key="key" class="day {{item.count?'has-entry':''}} {{selected===item.key?'selected':''}}">
+      <view wx:if="{{!item.blank}}" data-date="{{item.key}}" bindtap="select">
+        <text>{{item.day}}</text>
+        <view class="day-periods" wx:if="{{item.count}}"><text class="morning {{item.morning?'active':''}}"/><text class="afternoon {{item.afternoon?'active':''}}"/><text class="night {{item.night?'active':''}}"/></view>
+        <text class="day-count">{{item.count?item.count+'篇':''}}</text>
+      </view>
+    </view>
+  </view>
+  <button class="secondary showcase-entry" bindtap="studio"><image class="icon" src="/assets/icons/layout-grid.png"/>打开夏日展览馆</button>
+  <view class="section-heading"><text>{{selected||'最近的时光'}}</text><button class="text-button" bindtap="random">随机捞一篇</button></view>
+  <view wx:for="{{filtered}}" wx:key="id" class="memory-row" data-id="{{item.id}}" bindtap="open"><text class="date">{{item.month}}/{{item.day}}</text><text class="grow bold">{{item.displayTitle}}</text><text class="small muted">{{item.mood}}</text></view>
+  <view wx:if="{{!filtered.length}}" class="empty compact">这一天还没有留下记录。</view>
+  <button class="secondary" bindtap="play"><image class="icon" src="/assets/icons/play.png"/>打开回忆放映室</button>
+  <view class="section-heading">过去一年的足迹</view>
+  <view class="heatmap"><view wx:for="{{heat}}" wx:key="date" class="heat {{item.count?'filled':''}}" data-date="{{item.date}}" bindtap="openDay" aria-label="{{item.date}}，{{item.count}}篇"/></view>
+  <view class="small muted">深色格代表当天有记录 · 点击进入当天放映</view>
+  <view class="section-heading">心情气象台</view>
+  <view class="mood-stat" wx:for="{{stats}}" wx:key="mood"><text>{{item.mood}}</text><view class="bar-track"><view class="bar" style="width:{{item.percent}}%"/></view><text class="small muted">{{item.count}} 篇</text></view>
+  <view class="section-heading">最近的心情变化</view>
+  <scroll-view scroll-x><view class="trend"><view wx:for="{{trend}}" wx:key="index" class="trend-item"><text class="small muted">{{item.mood}}</text><view class="trend-track"><view style="height:{{item.height}}px"/></view><text class="small muted">{{item.date}}</text></view></view></scroll-view>
+  <text class="small muted">按最近 14 篇记录排序，不推断未记录日期的心情。</text>
+  <view class="section-heading">往年今日</view>
+  <view class="list-row" wx:for="{{anniversaries}}" wx:key="id" data-id="{{item.id}}" bindtap="open">{{item.displayTitle}} · {{item.date}}</view>
+  <view wx:if="{{!anniversaries.length}}" class="empty compact">往年今天还没有记录。</view>
+  <view class="overlay" wx:if="{{showDayViewer}}">
+    <view class="player day-player">
+      <button class="icon-button close" bindtap="closeDay" aria-label="关闭当天放映">×</button>
+      <view class="day-viewer-head"><text class="eyebrow">ONE DAY, ALL TRACES</text><view class="entry-title">{{dayDate}} · 当天记录</view></view>
+      <swiper current="{{daySlide}}" bindchange="daySlide" class="memory-swiper">
+        <swiper-item wx:for="{{dayEntries}}" wx:key="id">
+          <image wx:if="{{item.photo}}" class="player-photo" src="{{item.photo}}" mode="aspectFill"/>
+          <view wx:else class="player-no-photo">这一天，用文字留了下来</view>
+          <view class="date">{{item.dateLabel}} · {{item.mood}}</view>
+          <view class="entry-title">{{item.displayTitle}}</view>
+          <view class="excerpt day-excerpt">{{item.excerpt}}</view>
+        </swiper-item>
+      </swiper>
+      <button class="text-button" data-id="{{dayEntries[daySlide].id}}" bindtap="open">查看这篇记录</button>
+      <view class="row between"><text>{{daySlide+1}} / {{dayEntries.length}}</text><text class="small muted">左右滑动查看当天全部记录</text></view>
+    </view>
+  </view>
+  <view class="overlay" wx:if="{{showPlayer}}">
+    <view class="player">
+      <button class="icon-button close" bindtap="close" aria-label="关闭放映">×</button>
+      <swiper current="{{slide}}" bindchange="slide" class="memory-swiper">
+        <swiper-item wx:for="{{entries}}" wx:key="id">
+          <image wx:if="{{item.photo}}" class="player-photo" src="{{item.photo}}" mode="aspectFill"/>
+          <view wx:else class="player-no-photo">文字也能留住一段时光</view>
+          <view class="date">{{item.dateLabel}}</view>
+          <view class="entry-title">{{item.displayTitle}}</view>
+          <view class="excerpt">{{item.excerpt}}</view>
+        </swiper-item>
+      </swiper>
+      <button class="text-button" data-id="{{entries[slide].id}}" bindtap="open">查看这篇记录</button>
+      <view class="row between"><text>{{slide+1}} / {{entries.length}}</text><button class="secondary" bindtap="toggle">{{playing?'暂停':'继续'}}</button></view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,214 @@
+<view class="page {{theme}}">
+  <text class="eyebrow">CURATE YOUR SUMMER</text>
+  <view class="page-title">夏日展览馆</view>
+  <text class="muted">把本地记录变成可以浏览、比较和带走的作品。</text>
+
+  <scroll-view scroll-x class="chips studio-tabs">
+    <button
+      wx:for="{{features}}"
+      wx:key="id"
+      class="chip {{feature===item.id?'selected':''}}"
+      data-id="{{item.id}}"
+      bindtap="feature"
+    >
+      {{item.name}}
+    </button>
+  </scroll-view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+
+  <view wx:if="{{feature==='mosaic'}}">
+    <view class="section-heading">生活拼图</view>
+    <view class="row wrap">
+      <button
+        class="chip {{scope===7?'selected':''}}"
+        data-days="7"
+        bindtap="scope"
+      >
+        最近一周
+      </button>
+      <button
+        class="chip {{scope===31?'selected':''}}"
+        data-days="31"
+        bindtap="scope"
+      >
+        最近一月
+      </button>
+    </view>
+    <view class="mosaic-preview" wx:if="{{mosaic.length}}">
+      <view wx:for="{{mosaic}}" wx:key="index" class="mosaic-tile">
+        <image wx:if="{{item.photo}}" src="{{item.photo}}" mode="aspectFill" />
+        <view wx:else
+          ><text>{{item.title}}</text
+          ><text class="small">{{item.shortDate}}</text></view
+        >
+      </view>
+    </view>
+    <view wx:else class="empty compact"
+      >这个时间范围内还没有可用的生活片段。</view
+    >
+    <button
+      class="primary"
+      bindtap="generateMosaic"
+      loading="{{generating}}"
+      disabled="{{generating||!mosaic.length}}"
+    >
+      生成 3×3 拼图
+    </button>
+  </view>
+
+  <view wx:if="{{feature==='cloud'}}">
+    <view class="section-heading">{{year}} 年度词云</view>
+    <view wx:if="{{words.length}}" class="word-cloud">
+      <text
+        wx:for="{{words}}"
+        wx:key="word"
+        class="word tone-{{item.tone}}"
+        style="font-size:{{item.size}}rpx"
+        >{{item.word}}</text
+      >
+    </view>
+    <view wx:else class="empty compact">今年的文字还不够生成词云。</view>
+    <text class="small muted"
+      >按标题与标签词频在本机统计；这是轻量关键词展示，不代表 AI
+      语义分析。</text
+    >
+  </view>
+
+  <view wx:if="{{feature==='graph'}}">
+    <view class="section-heading">记录关系网</view>
+    <canvas
+      canvas-id="graphCanvas"
+      class="graph-canvas"
+      style="width: 350px; height: 300px"
+    />
+    <text class="small muted"
+      >连线表示两篇记录存在共同标签，线条越深，相似度越高。</text
+    >
+    <view class="relation-list" wx:if="{{graph.edges.length}}">
+      <view wx:for="{{graph.edges}}" wx:key="index" class="relation-row">
+        <button class="text-button" data-id="{{item.fromId}}" bindtap="open">
+          {{item.fromTitle}}
+        </button>
+        <text class="small accent">{{item.commonLabel}}</text>
+        <button class="text-button" data-id="{{item.toId}}" bindtap="open">
+          {{item.toTitle}}
+        </button>
+      </view>
+    </view>
+    <view wx:else class="empty compact"
+      >给不同记录添加相同标签，就能看到它们连成网络。</view
+    >
+  </view>
+
+  <view wx:if="{{feature==='palette'}}">
+    <view class="section-heading">情绪颜色收藏册</view>
+    <view class="palette-strip" wx:if="{{palette.length}}">
+      <view
+        wx:for="{{palette}}"
+        wx:key="id"
+        class="palette-item"
+        data-id="{{item.id}}"
+        bindtap="open"
+      >
+        <view class="palette-color" style="background:{{item.color}}" />
+        <view class="bold">{{item.title}}</view>
+        <text class="small muted">{{item.date}} · {{item.mood}}</text>
+        <text class="small accent">{{item.source}}</text>
+      </view>
+    </view>
+    <view wx:else class="empty compact"
+      >写下第一篇记录后，这里会出现你的第一种生活颜色。</view
+    >
+  </view>
+
+  <view wx:if="{{feature==='exhibit'}}">
+    <view class="section-heading"
+      >选择 3–6 篇展品
+      <text class="small muted">{{selected.length}} / 6</text></view
+    >
+    <scroll-view scroll-y class="entry-select exhibit-select">
+      <view
+        wx:for="{{entries}}"
+        wx:key="id"
+        class="select-row {{item.checked?'checked':''}}"
+        data-id="{{item.id}}"
+        bindtap="select"
+      >
+        <view class="check-box">{{item.checked?'✓':''}}</view>
+        <view class="grow"
+          ><view class="bold">{{item.displayTitle}}</view
+          ><text class="small muted"
+            >{{item.dateLabel}} · {{item.excerpt}}</text
+          ></view
+        >
+      </view>
+    </scroll-view>
+    <view wx:if="{{exhibit.length}}" class="exhibit-stage">
+      <text class="eyebrow"
+        >EXHIBIT {{exhibitIndex+1}} / {{exhibit.length}}</text
+      >
+      <image
+        wx:if="{{exhibit[exhibitIndex].photo}}"
+        src="{{exhibit[exhibitIndex].photo}}"
+        mode="aspectFill"
+      />
+      <view class="entry-title">{{exhibit[exhibitIndex].displayTitle}}</view>
+      <text class="date">{{exhibit[exhibitIndex].dateLabel}}</text>
+      <view class="excerpt">{{exhibit[exhibitIndex].excerpt}}</view>
+      <view class="row between"
+        ><button
+          class="icon-button"
+          data-step="-1"
+          bindtap="exhibitStep"
+          aria-label="上一件展品"
+        >
+          <image src="/assets/icons/chevron-left.png" /></button
+        ><button
+          class="text-button"
+          data-id="{{exhibit[exhibitIndex].id}}"
+          bindtap="open"
+        >
+          查看原文</button
+        ><button
+          class="icon-button"
+          data-step="1"
+          bindtap="exhibitStep"
+          aria-label="下一件展品"
+        >
+          <image src="/assets/icons/chevron-right.png" /></button
+      ></view>
+    </view>
+    <button
+      class="primary"
+      bindtap="generateExhibit"
+      loading="{{generating}}"
+      disabled="{{generating||selected.length<3}}"
+    >
+      生成展览封面
+    </button>
+  </view>
+
+  <image
+    wx:if="{{image}}"
+    class="studio-output"
+    src="{{image}}"
+    mode="widthFix"
+    bindtap="preview"
+  />
+  <view wx:if="{{image}}" class="action-grid"
+    ><button class="secondary" bindtap="preview">查看大图</button
+    ><button class="secondary" bindtap="save">保存图片</button></view
+  >
+  <canvas
+    type="2d"
+    id="mosaicCanvas"
+    class="offscreen-canvas"
+    style="width: 600px; height: 700px"
+  />
+  <canvas
+    type="2d"
+    id="exhibitCanvas"
+    class="offscreen-canvas"
+    style="width: 600px; height: 900px"
+  />
+</view>

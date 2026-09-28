@@ -1,0 +1,8 @@
+node_modules/
+server/.env
+project.private.config.json
+*.log
+*.zip
+coverage/
+.DS_Store
+Thumbs.db

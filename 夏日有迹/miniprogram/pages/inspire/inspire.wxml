@@ -1,0 +1,41 @@
+<view class="page {{theme}}">
+  <text class="eyebrow">A SPARK FOR YOUR DAY</text>
+  <view class="page-title">夏日灵感局</view>
+  <view class="prompt-paper">
+    <image class="prompt-leaf" src="/assets/icons/sprout.png"/>
+    <text class="small accent">今日灵感签</text>
+    <view class="prompt-text">{{prompt}}</view>
+    <view class="action-grid"><button class="text-button" bindtap="draw">再抽一张</button><button class="primary" bindtap="write">从这里写起</button></view>
+  </view>
+  <button class="secondary" bindtap="question"><image class="icon" src="/assets/icons/sparkles.png"/>请笔友送来“明日一问”</button>
+  <button class="secondary" bindtap="studio"><image class="icon" src="/assets/icons/layout-grid.png"/>逛逛我的夏日展览馆</button>
+  <view class="section-heading"><text>寄给未来的夏天</text><button class="icon-button" bindtap="capsule" aria-label="新建胶囊"><image src="/assets/icons/plus.png"/></button></view>
+  <view class="capsule-row" wx:for="{{capsules}}" wx:key="id" data-id="{{item.id}}" bindtap="open">
+    <image class="icon" src="/assets/icons/{{item.locked?'lock-keyhole':'mail-open'}}.png"/>
+    <view class="grow"><view class="bold">{{item.title||'一封未来来信'}}</view><text class="small muted">{{item.unlockDate}} · {{item.locked?'等待开启':'可以打开了'}}</text></view>
+    <text>→</text>
+  </view>
+  <view class="empty compact" wx:if="{{!capsules.length}}"><text>给未来的自己，留一份小小惊喜。</text><button class="text-button" bindtap="capsule">封存时光胶囊</button></view>
+
+  <view class="section-heading"><text>夏日奇物集</text><text class="small muted">{{earnedCurios}} / 50 已点亮</text></view>
+  <view class="curio-summary">
+    <view><text class="number">{{curioLevels}}</text><text class="small muted">已获得等级</text></view>
+    <view><text class="number">150</text><text class="small muted">总等级</text></view>
+  </view>
+  <scroll-view scroll-x class="chips curio-filters">
+    <button wx:for="{{categories}}" wx:key="*this" class="chip {{curioCategory===item?'selected':''}}" data-category="{{item}}" bindtap="curioFilter">{{item}}</button>
+  </scroll-view>
+  <view class="collection">
+    <view class="collectible {{item.unlocked?'':'unearned'}}" wx:for="{{badges}}" wx:key="id">
+      <view class="curio-head">
+        <image src="/assets/icons/{{item.icon}}.png"/>
+        <text class="curio-level">Lv.{{item.level}}</text>
+      </view>
+      <view class="bold">{{item.name}}</view>
+      <text class="small muted curio-desc">{{item.category}} · {{item.desc}}</text>
+      <view class="curio-tiers"><text wx:for="{{[1,2,3]}}" wx:for-item="tier" wx:key="*this" class="{{item.level>=tier?'active':''}}">I</text></view>
+      <view class="curio-track"><view class="curio-progress" style="width:{{item.progress}}%"/></view>
+      <text class="small muted curio-progress-text">{{item.progressText}}</text>
+    </view>
+  </view>
+</view>

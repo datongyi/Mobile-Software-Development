@@ -1,0 +1,52 @@
+<view class="page {{theme}}">
+  <text class="eyebrow">LET A LETTER FIND YOU</text>
+  <view class="page-title">夏日笔友</view>
+  <view class="muted">把一段生活，寄给另一种视角。</view>
+  <button class="secondary history-entry" bindtap="toggleHistory"><image class="icon" src="/assets/icons/history.png"/>历史回信 · {{history.length}} 封</button>
+  <view class="mode-grid">
+    <button wx:for="{{modes}}" wx:key="id" class="chip {{mode===item.id?'selected':''}}" data-id="{{item.id}}" bindtap="mode" disabled="{{loading||confirming}}">{{item.name}}</button>
+  </view>
+  <view wx:if="{{mode==='parallel'}}" class="notice">这是一篇虚构改写，不代表真实发生的经历。</view>
+  <view wx:if="{{mode==='dual'}}" class="notice">一次生成“温柔倾听”和“清醒直言”两封短回信，便于对照不同视角；会使用更多 token。</view>
+  <view class="section-heading">今天想听怎样的回应</view>
+  <view class="row wrap"><button wx:for="{{tones}}" wx:key="id" class="chip {{tone===item.id?'selected':''}}" data-id="{{item.id}}" bindtap="tone" disabled="{{loading||confirming}}">{{item.name}}</button></view>
+  <button class="text-button" bindtap="saveTone">设为默认语气</button>
+  <view class="section-heading">准备寄出的记录 <text class="small muted">已选 {{selected.length}} / 10</text></view>
+  <scroll-view scroll-y class="entry-select">
+    <view wx:for="{{entries}}" wx:key="id" class="select-row {{item.checked?'checked':''}}" data-id="{{item.id}}" bindtap="select">
+      <view class="check-box">{{item.checked?'✓':''}}</view>
+      <view class="grow"><view class="bold">{{item.displayTitle}}</view><text class="small muted">{{item.dateLabel}} · {{item.excerpt}}</text></view>
+    </view>
+  </scroll-view>
+  <view wx:if="{{!entries.length}}" class="empty compact">先写一篇记录，再来收一封信。</view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+  <button class="primary" bindtap="generate" loading="{{loading}}" disabled="{{loading||confirming||!selected.length}}">{{loading?'笔友正在写信…':'寄出并生成回信'}}</button>
+  <view wx:if="{{loading}}" class="soda-wait"><view class="soda"><view class="bubble b1"/><view class="bubble b2"/><view class="bubble b3"/></view><text>正在捕捉夏日电波…</text></view>
+  <button wx:if="{{loading}}" class="text-button" bindtap="cancel">取消等待</button>
+  <view wx:if="{{reply}}" class="letter-paper">
+    <text class="small accent">{{reply.mode==='parallel'?'虚构故事':'来自 AI 笔友的回信'}}</text>
+    <view class="letter-body" selectable>{{reply.reply}}</view>
+    <view wx:if="{{reply.alternateReply}}" class="dual-reply"><text class="small accent">另一个声道 · 清醒直言</text><view class="letter-body" selectable>{{reply.alternateReply}}</view></view>
+    <view wx:if="{{reply.title}}" class="suggestion"><text class="small muted">建议标题</text><view class="bold">{{reply.title}}</view></view>
+    <view class="row wrap entry-tags"><text wx:for="{{reply.tags}}" wx:key="*this"># {{item}}</text></view>
+    <view wx:if="{{reply.color}}" class="row"><view class="color-swatch" style="background:{{reply.color}}"/><text class="small">{{reply.colorName||reply.color}}</text></view>
+    <view wx:if="{{reply.question}}" class="suggestion"><text class="small muted">明日一问</text><view>{{reply.question}}</view><button class="text-button" bindtap="writeQuestion">从这个问题开始写</button></view>
+    <view class="action-grid"><button class="secondary" bindtap="copy">复制回信</button><button class="secondary" bindtap="apply" disabled="{{applied||!canApply}}">{{applied?'已采纳':'采纳建议'}}</button></view>
+    <button wx:if="{{applied}}" class="text-button" bindtap="undo">撤销本次建议</button>
+  </view>
+  <view class="overlay" wx:if="{{showHistory}}">
+    <view class="player history-drawer">
+      <button class="icon-button close" bindtap="closeHistory" aria-label="关闭历史回信">×</button>
+      <view class="entry-title">历史回信</view>
+      <text class="small muted">{{entryId?'只显示与当前记录有关的回信':'当前账户的全部回信'}}</text>
+      <scroll-view scroll-y class="history-list">
+        <view wx:for="{{history}}" wx:key="id" class="list-row" data-index="{{index}}" bindtap="history">
+          <text class="small accent">{{item.toneLabel}} · {{item.modeLabel}} · {{item.dateLabel}}</text>
+          <view class="excerpt">{{item.reply}}</view>
+        </view>
+        <view wx:if="{{!history.length}}" class="empty compact">还没有历史回信。</view>
+      </scroll-view>
+    </view>
+  </view>
+  <view class="footer-note">AI 回信仅供启发，不替你定义感受。</view>
+</view>

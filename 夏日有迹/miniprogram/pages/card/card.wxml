@@ -1,0 +1,45 @@
+<view class="page {{theme}}">
+  <view class="page-title">把这一刻，送出去</view>
+  <view class="row wrap"><button class="chip {{layout===item.id?'selected':''}}" wx:for="{{layouts}}" wx:key="id" data-id="{{item.id}}" bindtap="layout">{{item.name}}</button></view>
+  <view class="share-preview layout-{{layout}}" wx:if="{{!image}}">
+    <view wx:if="{{layout==='journal'}}" class="preview-journal">
+      <text class="preview-label">SUMMER TRACES · 手账</text>
+      <image wx:if="{{entry.photo}}" class="preview-photo journal-photo" src="{{entry.photo}}" mode="aspectFill"/>
+      <view wx:else class="preview-placeholder">今天的文字，也是一张照片</view>
+      <view class="entry-title">{{entry.displayTitle}}</view>
+      <text wx:if="{{showDate}}" class="date">{{entry.dateLabel}} · {{entry.mood}}</text>
+      <view class="detail-body">{{summary}}</view>
+      <text class="small muted">{{showName?name+' · 夏日有迹':'夏日有迹 · 把日常贴进一页手账'}}</text>
+    </view>
+    <view wx:elif="{{layout==='polaroid'}}" class="preview-polaroid">
+      <view class="polaroid-frame">
+        <image wx:if="{{entry.photo}}" class="preview-photo polaroid-photo" src="{{entry.photo}}" mode="aspectFill"/>
+        <view wx:else class="polaroid-empty">这一刻没有照片<text>于是把文字留在相纸上</text></view>
+        <view class="entry-title">{{entry.displayTitle}}</view>
+        <text wx:if="{{showDate}}" class="date">{{entry.dateLabel}} · {{entry.mood}}</text>
+      </view>
+      <text class="small">{{showName?name+' · 夏日有迹':'夏日有迹 · 一张生活拍立得'}}</text>
+    </view>
+    <view wx:else class="preview-letter">
+      <view class="letter-stamp">夏日<text>回信</text></view>
+      <text class="preview-label">TO：正在认真生活的你</text>
+      <view class="entry-title">{{entry.displayTitle}}</view>
+      <text wx:if="{{showDate}}" class="date">{{entry.dateLabel}} · {{entry.mood}}</text>
+      <view class="detail-body">{{showAI&&ai?ai:summary}}</view>
+      <text class="small muted">{{showName?'FROM：'+name:'FROM：夏日有迹'}}</text>
+    </view>
+  </view>
+  <image wx:else class="card-image" src="{{image}}" mode="widthFix" bindtap="preview"/>
+  <view class="section-heading">分享前，留一点隐私</view>
+  <view wx:if="{{privacy.length}}" class="privacy-warning"><image class="icon" src="/assets/icons/shield-alert.png"/><view><view class="bold">摘要里可能包含：{{privacyText}}</view><text class="small">请确认是否需要删减。检测仅在本机进行，不会自动修改文字。</text></view></view>
+  <view wx:else class="privacy-ok"><image class="icon" src="/assets/icons/shield-check.png"/>未发现常见敏感格式，仍请自行检查。</view>
+  <view class="setting-row"><text>显示日期</text><switch color="#21745d" checked="{{showDate}}" data-key="showDate" bindchange="toggle"/></view>
+  <view class="setting-row"><text>显示昵称</text><switch color="#21745d" checked="{{showName}}" data-key="showName" bindchange="toggle"/></view>
+  <view class="setting-row"><text>包含 AI 回信</text><switch color="#21745d" checked="{{showAI}}" disabled="{{!ai}}" data-key="showAI" bindchange="toggle"/></view>
+  <textarea class="field summary-input" value="{{summary}}" maxlength="500" bindinput="summary"/>
+  <text class="small muted">卡片空间有限，长文会显示省略号；可在上方调整摘要。</text>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+  <button class="primary" bindtap="generate" loading="{{generating}}" disabled="{{generating}}">生成卡片预览</button>
+  <view class="action-grid"><button class="secondary" bindtap="save" disabled="{{generating}}">保存图片</button><button class="secondary" bindtap="copy">复制文字</button></view>
+  <canvas type="2d" id="shareCanvas" class="offscreen-canvas" style="width:600px;height:900px"/>
+</view>

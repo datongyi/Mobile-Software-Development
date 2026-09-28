@@ -1,0 +1,14 @@
+{
+  "pages": ["pages/home/home","pages/time/time","pages/inspire/inspire","pages/profile/profile","pages/accounts/accounts","pages/editor/editor","pages/detail/detail","pages/letter/letter","pages/card/card","pages/studio/studio"],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "夏日有迹",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar":{"color":"#61736D","selectedColor":"#21745D","backgroundColor":"#FFFFFF","borderStyle":"white","list":[{"pagePath":"pages/home/home","text":"手账","iconPath":"assets/icons/book-open.png","selectedIconPath":"assets/icons/book-open-active.png"},{"pagePath":"pages/time/time","text":"时光","iconPath":"assets/icons/calendar-days.png","selectedIconPath":"assets/icons/calendar-days-active.png"},{"pagePath":"pages/inspire/inspire","text":"灵感","iconPath":"assets/icons/sparkles.png","selectedIconPath":"assets/icons/sparkles-active.png"},{"pagePath":"pages/profile/profile","text":"我的","iconPath":"assets/icons/user-round.png","selectedIconPath":"assets/icons/user-round-active.png"}]},
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents"
+}
